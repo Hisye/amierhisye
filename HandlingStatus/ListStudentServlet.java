@@ -6,6 +6,7 @@ package HandlingStatus;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author User
  */
-public class DeleteStudentList extends HttpServlet {
+public class ListStudentServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -30,19 +31,32 @@ public class DeleteStudentList extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            String email = request.getParameter("email");
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet ListStudentServlet</title>");            
+            out.println("</head>");
+            out.println("<body>");
             
-            int status = ViewStudentInfoDao.delete(email);
-            if (status > 0) {
-                out.print("<p>Update Successful</p>");
-                response.sendRedirect("viewStudentList.jsp");
-            } else {
-                out.println("Sorry, record not updated");
+            List<ViewStudentInfo> list = ViewStudentInfoDao.getAllStudentInfo();
+
+            out.print("<table class='financial-aid-table'");
+            out.print("<tr><th>Name</th><th>Email</th><th>Phone Number</th><th>IC</th><th>Matric</th><th>Delete</th></tr>");
+            for (ViewStudentInfo e : list) {
+                out.print("<tr>");
+                out.print("<td>" + e.getName() + "</td>");
+                out.print("<td>" + e.getEmail() + "</td>");
+                out.print("<td>" + e.getPhoneNumber() + "</td>");
+                out.print("<td>" + e.getIc() + "</td>");
+                out.print("<td>" + e.getMatric() + "</td>");
+                out.print("<td><a href='DeleteStudentList?email=" + e.getEmail()+ "'>Delete</a></td>");
+                out.print("</tr>");
             }
-        } catch (Exception ex) {
-            ex.printStackTrace();
+            out.println("</table>");
+            out.println("</body>");
+            out.println("</html>");
         }
-        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

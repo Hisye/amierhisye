@@ -25,8 +25,6 @@ public class StudentApplication {
     public void setApplicationId(int applicationId) {
         this.applicationId = applicationId;
     }
-    
-    
 
     public String getStu_email() {
         return stu_email;

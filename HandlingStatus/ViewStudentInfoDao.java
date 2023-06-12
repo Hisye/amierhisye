@@ -27,7 +27,7 @@ public class ViewStudentInfoDao {
             //String fSelectQry = "SELECT * FROM financial WHERE id=?";//cuba cek jugak sini betul dak
             PreparedStatement studentPS = con.prepareStatement(sSelectQry);
             //PreparedStatement financialPS = con.prepareStatement(fSelectQry);
-            studentPS.setString(1, email);
+            studentPS.setString(2, email);
             ResultSet rs = studentPS.executeQuery();
             if (rs.next()) {
                 e = new ViewStudentInfo();
@@ -54,7 +54,7 @@ public class ViewStudentInfoDao {
         return e;
     }
 
-    public static List<ViewStudentInfo> getAllStudentInfo() throws ClassNotFoundException, SQLException {
+    public static List<ViewStudentInfo> getAllStudentInfo() {
         List<ViewStudentInfo> list = new ArrayList<ViewStudentInfo>();
 
         try {
@@ -88,16 +88,17 @@ public class ViewStudentInfoDao {
         return list;
     }
     
-    public static int delete(String name) {
+    public static int delete(String email) {
         int status = 0;
         try {
             Connection con = DBConnection.getConnection();
-            String sInsertQry = "DELETE FROM student WHERE name=?";
+            String sInsertQry = "DELETE FROM student WHERE email=?";
 
             PreparedStatement myPS = con.prepareStatement(sInsertQry);
 
-            myPS.setString(1, name);
+            myPS.setString(2, email);
 
+            
             status = myPS.executeUpdate();
             con.close();
         } catch (Exception ex) {
